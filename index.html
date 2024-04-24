@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation Form</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <style>
+    .error {
+      color: red;
+    }
+    .form-container {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Box shadow */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 form-container">
+      <h2 class="text-center">Validation Form</h2>
+      <form id="validationForm">
+        <div class="form-group">
+          <label for="firstName">First Name:</label>
+          <input type="text" class="form-control" id="firstName" name="firstName">
+          <span class="error" id="firstNameError"></span>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name:</label>
+          <input type="text" class="form-control" id="lastName" name="lastName">
+          <span class="error" id="lastNameError"></span>
+        </div>
+        <div class="form-group">
+          <label>Gender:</label><br>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+            <label class="form-check-label" for="male">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+            <label class="form-check-label" for="female">Female</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="other" value="other">
+            <label class="form-check-label" for="other">Other</label>
+          </div>
+          <span class="error" id="genderError"></span>
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth:</label>
+          <input type="date" class="form-control" id="dob" name="dob">
+          <span class="error" id="dobError"></span>
+        </div>
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <textarea class="form-control" id="address" name="address"></textarea>
+          <span class="error" id="addressError"></span>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" maxlength="10">
+          <span class="error" id="phoneNumberError"></span>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" name="email">
+          <span class="error" id="emailError"></span>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" id="password" name="password">
+          <span class="error" id="passwordError"></span>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+          <span class="error" id="confirmPasswordError"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <button type="reset" class="btn btn-secondary btn-block">Reset</button>
+        <div id="submitMessage" class="text-success mt-3" style="display: none;">Submitted successfully!</div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Custom JavaScript -->
+<script>
+  // Form validation
+  document.getElementById('validationForm').addEventListener('submit', function(event) {
+    var isValid = true;
+
+    // Reset error messages
+    var errorElements = document.getElementsByClassName('error');
+    for (var i = 0; i < errorElements.length; i++) {
+      errorElements[i].innerText = '';
+    }
+
+    // First Name validation
+    var firstName = document.getElementById('firstName').value;
+    if (!firstName) {
+      document.getElementById('firstNameError').innerText = 'First Name is required';
+      isValid = false;
+    }
+
+    // Last Name validation
+    var lastName = document.getElementById('lastName').value;
+    if (!lastName) {
+      document.getElementById('lastNameError').innerText = 'Last Name is required';
+      isValid = false;
+    }
+
+    // Gender validation
+    var genderInputs = document.getElementsByName('gender');
+    var genderSelected = false;
+    for (var i = 0; i < genderInputs.length; i++) {
+      if (genderInputs[i].checked) {
+        genderSelected = true;
+        break;
+      }
+    }
+    if (!genderSelected) {
+      document.getElementById('genderError').innerText = 'Please select a gender';
+      isValid = false;
+    }
+
+    // Date of Birth validation
+    var dob = document.getElementById('dob').value;
+    if (!dob) {
+      document.getElementById('dobError').innerText = 'Date of Birth is required';
+      isValid = false;
+    }
+
+    // Address validation
+    var address = document.getElementById('address').value;
+    if (!address) {
+      document.getElementById('addressError').innerText = 'Address is required';
+      isValid = false;
+    }
+
+    // Phone Number validation
+    var phoneNumber = document.getElementById('phoneNumber').value;
+    if (!phoneNumber) {
+      document.getElementById('phoneNumberError').innerText = 'Phone Number is required';
+      isValid = false;
+    } else if (!/^\d{10}$/.test(phoneNumber)) {
+      document.getElementById('phoneNumberError').innerText = 'Please enter a 10-digit phone number';
+      isValid = false;
+    }
+
+    // Email validation
+    var email = document.getElementById('email').value;
+    if (!email) {
+      document.getElementById('emailError').innerText = 'Email is required';
+      isValid = false;
+    }
+
+    // Password validation
+    var password = document.getElementById('password').value;
+    if (!password) {
+      document.getElementById('passwordError').innerText = 'Password is required';
+      isValid = false;
+    }
+
+    // Confirm Password validation
+    var confirmPassword = document.getElementById('confirmPassword').value;
+    if (!confirmPassword) {
+      document.getElementById('confirmPasswordError').innerText = 'Confirm Password is required';
+      isValid = false;
+    }
+
+    if (password !== confirmPassword) {
+      document.getElementById('confirmPasswordError').innerText = 'Passwords do not match';
+      isValid = false;
+    }
+
+    if (isValid) {
+      document.getElementById('submitMessage').style.display = 'block'; // Show success message
+      event.preventDefault(); // Prevent default form submission
+    } else {
+      document.getElementById('submitMessage').style.display = 'none'; // Hide success message
+      event.preventDefault(); // Prevent form submission if validation fails
+    }
+  });
+</script>
+
+</body>
+</html>
